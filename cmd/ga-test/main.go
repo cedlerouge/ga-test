@@ -4,16 +4,72 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+
 )
 
-func main() {
-	// Hello world, the web server
-
-	helloHandler := func(w http.ResponseWriter, req *http.Request) {
-		io.WriteString(w, "Hello, world!\n")
+type (
+	user struct {
+		ID	int	`json:"id"`
+		Name	string	`json:"name"`
 	}
 
-	http.HandleFunc("/hello", helloHandler)
-	log.Println("Listing for resquests at http://localhost:8012/hello")
-	log.Fatal(http.ListenAndServe(":8012", nil))
+var (
+	users = map[int]*user{}
+	seq = 1
+)
+
+//---------
+// Handlers
+//---------
+
+func createUser(c echo.Context) error {
+	u := &user{
+		ID: seq,
+	}
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	users[u.ID] = u
+	seq++
+	return c.JSON(http.StatusCreated, u)
+}
+
+func getUser(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id")
+	return c.JSON(http.StatusOK, users[id]
+}
+
+func updateUser(c echo.Context) error {
+	u := new(user)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	id; _ = strconv.Atoi(c.Param("id"))
+	users[id].Name = u.Name
+	return c.JSON(http.StatusOK, users[id]
+}
+
+func deleteUser(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param(id))
+	delete(users, id)
+	return c.NoContent(http.StatusNoContent)
+}
+
+func main() {
+	e := echo.New()
+
+	// Middleware
+	echo.Use(middleware.Logger())
+	echo.Use(middleware.Recover())
+
+	e.POST("/users", createUser)
+	e.GET("/users/:id", getUser)
+	e.PUT("/users/:id", updateUser)
+	e.DELETE("/users/:id", deleteUser)
+
+	// Start server
+	e.Logger.Fatal(e.Start(":8012"))
 }
