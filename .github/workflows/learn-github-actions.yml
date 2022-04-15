@@ -10,3 +10,9 @@ jobs:
           node-version: '14'
       - run: npm install -g bats
       - run: bats -v
+
+  echo-toto:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run : echo "toto"
