@@ -20,9 +20,11 @@ jobs:
           git branch -av
           git config user.name botdsivdn
           git config user.email botdsivdn@users.noreply.github.com
+          git fetch 
+          git remote -v 
+          git branch -av
           git checkout production
-          git pull origin production
-          git merge origin/main --no-edit
+          git merge main --no-edit
           git checkout -b autoprod/${RANDOM}
           date > generated.txt
           git add generated
