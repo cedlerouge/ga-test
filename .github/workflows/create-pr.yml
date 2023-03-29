@@ -33,7 +33,7 @@ jobs:
         with:
           destination_repository: 'DSI-Ville-Noumea/dc-ctwes'
           destination_branch: "production"
-          github_token: ${{ secret.REPO_ACCESS_TOKEN }}
+          github_token: ${{ secrets.REPO_ACCESS_TOKEN }}
       -
         name: output-url
         run: echo ${{steps.cpr.outputs.pr_url}}
