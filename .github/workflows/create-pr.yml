@@ -24,7 +24,7 @@ jobs:
           git remote -v 
           git branch -av
           git checkout production
-          git merge main --no-edit
+          git merge staging --no-edit
           git checkout -b autoprod/${RANDOM}
           date > generated.txt
           git add generated
