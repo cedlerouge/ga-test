@@ -12,7 +12,7 @@ jobs:
         with:
           repository: 'DSI-Ville-Noumea/dc-ctwes'
           ref: '/ref/head/production'
-          token: ${{ secret.REPO_ACCESS_TOKEN }}
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
       -
         name: auto generated
         run: |
