@@ -21,7 +21,7 @@ jobs:
           git config user.name botdsivdn
           git config user.email botdsivdn@users.noreply.github.com
           git checkout -b autoprod/${RANDOM}
-          git merge main --no-edit
+          git merge origin/main --no-edit
           date > generated.txt
           git add .
           git commit -m "auto generated"
