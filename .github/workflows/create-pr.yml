@@ -20,12 +20,14 @@ jobs:
           git branch -av
           git config user.name botdsivdn
           git config user.email botdsivdn@users.noreply.github.com
-          git checkout -b autoprod/${RANDOM}
+          git checkout production
+          git pull origin production
           git merge origin/main --no-edit
+          git checkout -b autoprod/${RANDOM}
           date > generated.txt
-          git add .
+          git add generated
           git commit -m "auto generated"
-          git push
+          git push origin autoprod/${RANDOM}
       -
         name: pull-request
         id: cpr
