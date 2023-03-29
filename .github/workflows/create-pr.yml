@@ -1,0 +1,48 @@
+name: Create PR
+
+on:
+  push:
+
+jobs:
+  update-dc:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v3
+        with:
+          repository: 'DSI-Ville-Noumea/dc-ctwes'
+          ref: '/ref/head/production'
+          token: ${{ secret.REPO_ACCESS_TOKEN }}
+      -
+        name: auto generated
+        run: |
+          git remote -v 
+          git branch -av
+          git config user.name botdsivdn
+          git config user.email botdsivdn@users.noreply.github.com
+          git checkout -b autoprod/${RANDOM}
+          git merge main --no-edit
+          date > generated.txt
+          git add .
+          git commit -m "auto generated"
+          git push
+      -
+        name: pull-request
+        id: cpr
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_repository: 'DSI-Ville-Noumea/dc-ctwes'
+          destination_branch: "production"
+          github_token: ${{ secret.REPO_ACCESS_TOKEN }}
+      -
+        name: output-url
+        run: echo ${{steps.cpr.outputs.pr_url}}
+      -
+        name: output-number
+        run: echo ${{steps.cpr.outputs.pr_number}}
+      -
+        name: output-created
+        run: echo ${{steps.cpr.outputs.pr_created}}
+      -
+        name: output-has-changed-files
+        run: echo ${{steps.cpr.outputs.pr_has_changed_files}}
