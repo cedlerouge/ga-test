@@ -26,6 +26,7 @@ jobs:
           git checkout production
           git merge origin/staging --no-edit
           branch_name="autoprod/${RANDOM}"
+          echo "branch_name=$branch_name" >> $GITHUB_ENV
           git checkout -b $branch_name
           date > generated.txt
           git add generated.txt
@@ -36,6 +37,7 @@ jobs:
         id: cpr
         uses: repo-sync/pull-request@v2
         with:
+          source_branch: ${{ env.branch_name }}
           destination_repository: 'DSI-Ville-Noumea/dc-ctwes'
           destination_branch: "production"
           github_token: ${{ secrets.REPO_ACCESS_TOKEN }}
