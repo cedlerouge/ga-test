@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: 'DSI-Ville-Noumea/dc-ctwes'
-          ref: '/ref/head/production'
+          ref: 'production'
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
       -
         name: auto generated
